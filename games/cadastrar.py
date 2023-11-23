@@ -95,54 +95,33 @@ class CadastrarController:
         self._view.inputTit.delete(0,END)
 
     def _confirmar(self,event):
-        console = self._view.inputCons.get()
-        
-        try:
-            #print(console.lower())
-            if console.lower() in ['xbox','playstation','switch','pc']:
-                console = console.capitalize()
-            else:
-                raise Exception
-        except Exception:
-            self._view.inputCons.delete(0,END)
-            ShowView('Erro','Console incompatível')
-            return 
-
-        genero = self._view.inputGen.get()
-
-        try:
-            if genero.lower() in ['ação','aventura','estratégia','rpg','esporte','simulação']:
-                genero = genero.capitalize()
-            elif genero.lower() in ['acao','açao','estrategia','simulacao','simulaçao']:
-                if genero.lower() == 'acao' or genero.lower == 'açao':
-                    genero = 'Ação'
-                elif genero.lower() == 'estrategia':
-                    genero = 'Estratégia'
-                else:
-                    genero = 'Simulação'
-            else:
-                raise Exception
-        except Exception:
-            self._view.inputGen.delete(0,END)
-            ShowView('Erro','Gênero incompatível')
-            return 
-
+        console = (self._view.inputCons.get()).capitalize()
+        genero = (self._view.inputGen.get()).capitalize()
         preco = self._view.inputPreco.get()
-
-        try:
-            preco = float(preco)
-            if preco<=0 or preco >500:
-                raise Exception
-        except:
-            self._view.inputPreco.delete(0,END)
-            ShowView('Erro','Preço incompatível.\n O preço deve ser um número real entre 0 e 500')
-            return 
-        
-
         codigo = self._view.inputCod.get()
         titulo = self._view.inputTit.get()
+        
+        #print(console.capitalize())
+        try:
+            if genero in ['Acao','Açao','Acão']:
+                #print('teste')
+                genero = 'Ação'
+            elif genero == 'Estrategia':
+                genero = 'Estratégia'
+            elif genero in ['Simulacao','Simulaçao','Simulacão']:
+                genero = 'Simulação'
 
-        self._jogos.append(Jogo(codigo,titulo,console,genero,preco))
-    
-        self._view.destroy()
-        ShowView('Cadastro','Cadastro realizado')
+            self._jogos.append(Jogo(codigo,titulo,console.capitalize(),genero.capitalize(),float(preco)))
+
+            self._view.destroy()
+            ShowView('Cadastro','Cadastro realizado','info')
+        except ValueError as error:
+            #print('Console inválido: ' + preco)
+            if str(error) == 'Console inválido: ' + console:
+                self._view.inputCons.delete(0,END)
+            elif str(error) == 'Gênero inválido: ' + genero:
+                self._view.inputGen.delete(0,END)
+            elif str(error) == 'Preço inválido: ' + str(float(preco)):
+                self._view.inputPreco.delete(0,END)
+            
+            ShowView('Erro',error,'erro')

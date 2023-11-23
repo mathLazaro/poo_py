@@ -73,4 +73,4 @@ class ConsultarController:
                     text += '   console: ' + str(jg.console) + '\n'
                     text += '   gênero: ' + str(jg.genero) + '\n\n'
 
-            ShowView('Consulta',text)
+            ShowView('Consulta',text,'info')

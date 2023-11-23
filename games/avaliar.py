@@ -34,13 +34,13 @@ class FrameAvaliacao(Frame):
         self._ava.pack()
         self._button.pack(side='right',ipadx=20)
 
-    def add_label(self,cod:str):
+    def add_label(self,nome:str):
         try:
             self._labelHead.pack_forget()
         except:
             pass
         finally:
-            self._labelHead = Label(self._head,text=str('O código do jogo avaliado é \'' + cod + '\''),anchor=W)
+            self._labelHead = Label(self._head,text=str('O jogo avaliado é \'' + nome + '\''),anchor=W)
             self._labelHead.pack()
 
 
@@ -130,11 +130,11 @@ class AvaliarController:
                 if jg.codigo == codigo:
                     self._jogoSel = jg
                     self._view.frameCod.pack_forget()
-                    self._view.frameAva.add_label(codigo)
+                    self._view.frameAva.add_label(jg.titulo)
                     self._view.frameAva.pack()
                     return
                 
-            ShowView('Erro','Não há nenhum jogo cadastrado com esse código')
+            ShowView('Erro','Não há nenhum jogo cadastrado com esse código','erro')
             self._limpar('limpar')
     
     def _adicionar(self,event):
@@ -143,6 +143,5 @@ class AvaliarController:
         if len(sel) != 0:
             sel = int(sel)
             if sel == 1 or sel == 2 or sel == 3 or sel == 4 or sel == 5:
-                self._jogoSel.add_avaliacoes(Avaliacao(int(sel)))
-                ShowView('Sucesso',str('Avaliação adicionada para o jogo de código \''\
-                                        + self._jogoSel.codigo + '\''))
+                self._jogoSel.add_avaliacoes(Avaliacao(sel))
+                ShowView('Sucesso',str('Avaliação adicionada para o jogo \'' + self._jogoSel.titulo + '\''),'info')

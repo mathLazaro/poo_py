@@ -12,9 +12,9 @@ class Jogo:
     def __init__(self, codigo, titulo: str, console: str, genero: str, preco: float) -> None:
         self.__codigo = codigo
         self.__titulo = titulo
-        self.__console = console
-        self.__genero = genero
-        self.__preco = preco
+        self.console = console
+        self.genero = genero
+        self.preco = preco
 
         self.__avaliacoes = []
 
@@ -27,6 +27,10 @@ class Jogo:
         return self.__titulo
 
     @property
+    def avaliacoes(self):
+        return self.__avaliacoes
+    
+    @property
     def console(self):
         return self.__console
     
@@ -38,9 +42,28 @@ class Jogo:
     def preco(self):
         return self.__preco
     
-    @property
-    def avaliacoes(self):
-        return self.__avaliacoes
+    @console.setter
+    def console(self, console):
+        valido = ['Xbox','Playstation','Switch','Pc']
+        if not console in valido:
+            raise ValueError(f'Console inválido: {console}')
+        else:
+            self.__console = console
+    
+    @genero.setter
+    def genero(self,genero):
+        valido = ['Ação','Aventura','Estratégia','Rpg','Esporte','Simulação']
+        if not genero in valido:
+            raise ValueError(f'Gênero inválido: {genero}')
+        else:
+            self.__genero = genero
+    
+    @preco.setter
+    def preco(self, preco):
+        if preco <= 0 or preco > 500:
+            raise ValueError(f'Preço inválido: {preco}')
+        else:
+            self.__preco = preco
     
     def add_avaliacoes(self, avaliacao: Avaliacao):
         self.__avaliacoes.append(avaliacao)
